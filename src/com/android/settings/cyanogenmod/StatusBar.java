@@ -200,7 +200,7 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
             mPrefCategoryClock.removePreference(mStatusBarCenterClock);
             mPrefCategoryGeneral.removePreference(mStatusBarColor);
             mPrefCategoryGeneral.removePreference(mStatusBarBrightnessControl);
-            mPrefCategoryGeneral.removePreference(mStatusBarCmSignal);
+            //mPrefCategoryGeneral.removePreference(mStatusBarCmSignal);
         } else {
             mPrefCategoryGeneral.removePreference(mStatusBarMaxNotif);
             mPrefCategoryGeneral.removePreference(mCombinedBarAutoHide);
