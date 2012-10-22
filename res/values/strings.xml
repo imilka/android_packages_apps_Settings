@@ -4405,6 +4405,9 @@
     <string name="status_bar_clock_normal">Normal</string>
     <string name="status_bar_clock_small">Small (default)</string>
     <string name="status_bar_clock_title">Clock general</string>
+    <string name="status_bar_weekday_format_short">Short</string>
+    <string name="status_bar_weekday_format_medium">Medium (default)</string>
+    <string name="status_bar_weekday_format_long">Long</string>
     <string name="status_bar_category_am_pm_title">AM/PM</string>
     <string name="status_bar_category_weekday_title">Day of the week</string>
     <string name="status_bar_category_daymonth_title">Day and month</string>
@@ -4417,6 +4420,7 @@
     <string name="status_bar_show_weekday_title">Show day of the week</string>
     <string name="status_bar_show_weekday_summary">Show abbreviated day of the week aside the clock</string>
     <string name="status_bar_weekday_size_title">Day of the week size</string>
+    <string name="status_bar_weekday_format_title">Day of the week format</string>
     <string name="status_bar_show_daymonth_title">Show day and month</string>
     <string name="status_bar_show_daymonth_summary">Show current day and month aside the clock</string>
     <string name="status_bar_daymonth_size_title">Day and month size</string>

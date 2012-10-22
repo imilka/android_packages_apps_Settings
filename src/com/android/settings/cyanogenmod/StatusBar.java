@@ -49,6 +49,7 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
     private static final String STATUS_BAR_DONOTDISTURB = "status_bar_donotdisturb";
     private static final String STATUS_BAR_SHOW_WEEKDAY = "status_bar_show_weekday";
     private static final String STATUS_BAR_WEEKDAY_SIZE = "status_bar_weekday_size";
+    private static final String STATUS_BAR_WEEKDAY_FORMAT = "status_bar_weekday_format";
     private static final String STATUS_BAR_SHOW_DAYMONTH = "status_bar_show_daymonth";
     private static final String STATUS_BAR_DAYMONTH_SIZE = "status_bar_daymonth_size";
     private static final String STATUS_BAR_COLOR = "status_bar_color";
@@ -58,6 +59,7 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
     private ListPreference mStatusBarMaxNotif;
     private ListPreference mStatusBarCmSignal;
     private ListPreference mStatusBarWeekdaySize;
+    private ListPreference mStatusBarWeekdayFormat;
     private ListPreference mStatusBarDaymonthSize;
     private ColorPickerPreference mStatusBarColor;
     private CheckBoxPreference mStatusBarClock;
@@ -90,6 +92,8 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
         mStatusBarShowWeekday = (CheckBoxPreference) prefSet.findPreference(STATUS_BAR_SHOW_WEEKDAY);
         mStatusBarWeekdaySize = (ListPreference) prefSet.findPreference(STATUS_BAR_WEEKDAY_SIZE);
         mStatusBarWeekdaySize.setEnabled(mStatusBarShowWeekday.isChecked() && mStatusBarClock.isChecked());
+        mStatusBarWeekdayFormat = (ListPreference) prefSet.findPreference(STATUS_BAR_WEEKDAY_FORMAT);
+        mStatusBarWeekdayFormat.setEnabled(mStatusBarShowWeekday.isChecked() && mStatusBarClock.isChecked());
         mStatusBarShowDaymonth = (CheckBoxPreference) prefSet.findPreference(STATUS_BAR_SHOW_DAYMONTH);
         mStatusBarDaymonthSize = (ListPreference) prefSet.findPreference(STATUS_BAR_DAYMONTH_SIZE);
         mStatusBarDaymonthSize.setEnabled(mStatusBarShowDaymonth.isChecked() && mStatusBarClock.isChecked());
@@ -151,6 +155,12 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
         mStatusBarWeekdaySize.setSummary(mStatusBarWeekdaySize.getEntry());
         mStatusBarWeekdaySize.setOnPreferenceChangeListener(this);
 
+        int statusBarWeekdayFormat = Settings.System.getInt(getActivity().getApplicationContext().getContentResolver(),
+                Settings.System.STATUS_BAR_WEEKDAY_FORMAT, 1);
+        mStatusBarWeekdayFormat.setValue(String.valueOf(statusBarWeekdayFormat));
+        mStatusBarWeekdayFormat.setSummary(mStatusBarWeekdayFormat.getEntry());
+        mStatusBarWeekdayFormat.setOnPreferenceChangeListener(this);
+
         int statusBarDaymonthSize = Settings.System.getInt(getActivity().getContentResolver(),
                 Settings.System.STATUS_BAR_DAYMONTH_SIZE, 1);
         mStatusBarDaymonthSize.setValue(String.valueOf(statusBarDaymonthSize));
@@ -203,6 +213,7 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
         mStatusBarShowWeekday.setEnabled(value);
         mStatusBarShowDaymonth.setEnabled(value);
         mStatusBarWeekdaySize.setEnabled(value && mStatusBarShowWeekday.isChecked());
+        mStatusBarWeekdayFormat.setEnabled(value && mStatusBarShowWeekday.isChecked());
         mStatusBarAmPmSize.setEnabled(value && mStatusBarShowAmPm.isChecked());
         mStatusBarDaymonthSize.setEnabled(value && mStatusBarShowDaymonth.isChecked());
     }
@@ -222,7 +233,14 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
                     Settings.System.STATUS_BAR_WEEKDAY_SIZE, statusBarWeekdaySize);
             mStatusBarWeekdaySize.setSummary(mStatusBarWeekdaySize.getEntries()[index]);
             return true;
-        } else if (preference == mStatusBarDaymonthSize) {
+        } else if (preference == mStatusBarWeekdayFormat) {
+            int statusBarWeekdayFormat = Integer.valueOf((String) newValue);
+            int index = mStatusBarWeekdayFormat.findIndexOfValue((String) newValue);
+            Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
+                    Settings.System.STATUS_BAR_WEEKDAY_FORMAT, statusBarWeekdayFormat);
+            mStatusBarWeekdayFormat.setSummary(mStatusBarWeekdayFormat.getEntries()[index]);
+            return true;
+        }  else if (preference == mStatusBarDaymonthSize) {
             int statusBarDaymonthSize = Integer.valueOf((String) newValue);
             int index = mStatusBarDaymonthSize.findIndexOfValue((String) newValue);
             Settings.System.putInt(getActivity().getContentResolver(),
@@ -284,6 +302,7 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
             Settings.System.putInt(getActivity().getContentResolver(),
                     Settings.System.STATUS_BAR_SHOW_WEEKDAY, value ? 1 : 0);
             mStatusBarWeekdaySize.setEnabled(value);
+            mStatusBarWeekdayFormat.setEnabled(value);
             return true;
         } else if (preference == mStatusBarShowDaymonth) {
             value = mStatusBarShowDaymonth.isChecked();
