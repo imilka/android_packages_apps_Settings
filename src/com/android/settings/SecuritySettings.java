@@ -281,10 +281,10 @@ public class SecuritySettings extends SettingsPreferenceFragment
                 mMenuUnlock.setEnabled(false);
             }
             // Disable the HomeUnlock setting if no home button is available
-            if (getActivity().getApplicationContext().getResources()
-                    .getBoolean(com.android.internal.R.bool.config_disableHomeUnlockSetting)) {
-                mHomeUnlock.setEnabled(false);
-            }
+            //  if (getActivity().getApplicationContext().getResources()
+            //      .getBoolean(com.android.internal.R.bool.config_disableHomeUnlockSetting)) {
+            //  mHomeUnlock.setEnabled(false);
+            // }
         }
 
         // biometric weak liveliness
