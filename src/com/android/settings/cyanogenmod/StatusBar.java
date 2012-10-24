@@ -26,6 +26,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 import android.provider.Settings;
 import android.provider.Settings.SettingNotFoundException;
+import android.util.ExtendedPropertiesUtils;
 import android.util.Log;
 
 import com.android.settings.R;
@@ -260,11 +261,14 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
                     Settings.System.MAX_NOTIFICATION_ICONS, maxNotIcons);
             return true;
         } else if (preference == mStatusBarColor) {
-            String hex = ColorPickerPreference.convertToARGB(
-                    Integer.valueOf(String.valueOf(newValue)));
-            int intHex = ColorPickerPreference.convertToColorInt(hex);
-            Settings.System.putInt(getActivity().getContentResolver(),
-                    Settings.System.STATUS_BAR_COLOR, intHex);
+            String mSetting = Settings.System.getString(getActivity().getContentResolver(),
+                Settings.System.STATUS_BAR_COLOR);
+            String[] mColors = (mSetting == null || mSetting.equals("") ?
+                ExtendedPropertiesUtils.PARANOID_COLORS_DEFAULTS[ExtendedPropertiesUtils.PARANOID_COLORS_STATBAR] :
+                mSetting).split(ExtendedPropertiesUtils.PARANOID_STRING_DELIMITER);
+            Settings.System.putString(getActivity().getContentResolver(),
+                Settings.System.STATUS_BAR_COLOR, ColorPickerPreference.convertToARGB(
+                Integer.valueOf(String.valueOf(newValue))).substring(1) + "|" + mColors[1] + "|1");
             return true;
          } else if (preference == mStatusBarCmSignal) {
             int signalStyle = Integer.valueOf((String) newValue);
